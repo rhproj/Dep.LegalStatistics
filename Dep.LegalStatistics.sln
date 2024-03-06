@@ -5,6 +5,10 @@ VisualStudioVersion = 17.9.34622.214
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LegalStatistics.API", "LegalStatistics.API\LegalStatistics.API.csproj", "{342055E1-71E8-4BA9-8AAB-FBDC0CD2B715}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LegalStatistics.AccountAPI", "LegalStatistics.AccountAPI\LegalStatistics.AccountAPI.csproj", "{D82F00F6-7EB7-4E2E-9703-DCE5A084C218}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LegalStatistics.ReportRepository", "LegalStatistics.ReportRepository\LegalStatistics.ReportRepository.csproj", "{86B13A2F-1928-4592-B681-4E4095DE38C6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{342055E1-71E8-4BA9-8AAB-FBDC0CD2B715}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{342055E1-71E8-4BA9-8AAB-FBDC0CD2B715}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{342055E1-71E8-4BA9-8AAB-FBDC0CD2B715}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D82F00F6-7EB7-4E2E-9703-DCE5A084C218}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D82F00F6-7EB7-4E2E-9703-DCE5A084C218}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D82F00F6-7EB7-4E2E-9703-DCE5A084C218}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D82F00F6-7EB7-4E2E-9703-DCE5A084C218}.Release|Any CPU.Build.0 = Release|Any CPU
+		{86B13A2F-1928-4592-B681-4E4095DE38C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86B13A2F-1928-4592-B681-4E4095DE38C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86B13A2F-1928-4592-B681-4E4095DE38C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86B13A2F-1928-4592-B681-4E4095DE38C6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
