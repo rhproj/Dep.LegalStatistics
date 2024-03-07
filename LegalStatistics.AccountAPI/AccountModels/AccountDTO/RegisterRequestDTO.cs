@@ -2,25 +2,23 @@
 
 namespace LegalStatistics.AccountAPI.AccountModels.AccountDTO
 {
-    public class SignUpRequestDTO
+    public class RegisterRequestDTO
     {
-        [Required(ErrorMessage = "Email is required")]
-        //[RegularExpression("^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$", ErrorMessage = "Invalid email address")]
+        [Required(ErrorMessage = "Введите адрес электронной почты")]
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "Password is required.")]
+        [Required(ErrorMessage = "Введите пароль")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
-        [Required(ErrorMessage = "Confirm password is required")]
+        [Required(ErrorMessage = "Подтвердите пароль")]
         [DataType(DataType.Password)]
-        [Compare("Password", ErrorMessage = "Password and confirm password is not matched")]
+        [Compare("Password", ErrorMessage = "Введённые пароли не совпадают")]
         public string ConfirmPassword { get; set; }
 
         public string? Title { get; set; }
         public string? Department { get; set; }
-
-        public string? Role { get; set; }
+        public string Role {  get; set; } 
     }
 }

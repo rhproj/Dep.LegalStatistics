@@ -1,6 +1,6 @@
 ﻿namespace LegalStatistics.AccountAPI.AccountModels.AccountDTO
 {
-    public class SignInResponseDTO
+    public class LogInResponseDTO
     {
         public bool IsAuthSuccessful { get; set; }
         public string ErrorMessage { get; set; }

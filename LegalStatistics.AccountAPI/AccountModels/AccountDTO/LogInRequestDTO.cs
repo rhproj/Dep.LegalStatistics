@@ -2,14 +2,14 @@
 
 namespace LegalStatistics.AccountAPI.AccountModels.AccountDTO
 {
-    public class SignInRequestDTO
+    public class LogInRequestDTO
     {
-        [Required(ErrorMessage = "Email is required")]
+        [Required(ErrorMessage = "Введите адрес электронной почты")]
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 
 
-        [Required(ErrorMessage = "Password is required.")]
+        [Required(ErrorMessage = "Введите пароль")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
     }

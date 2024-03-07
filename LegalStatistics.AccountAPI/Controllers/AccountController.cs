@@ -28,43 +28,44 @@ namespace LegalStatistics.AccountAPI.Controllers
             _jwtModel = options.Value;
         }
 
-        [HttpPost("SignUp")]
-        public async Task<IActionResult> SignUp([FromBody] SignUpRequestDTO signUpRequestDTO)
+        [HttpPost("Register")]
+        public async Task<IActionResult> RegisterUser([FromBody] RegisterRequestDTO registerRequestDTO)
         {
-            if (signUpRequestDTO == null || !ModelState.IsValid)
+            if (registerRequestDTO == null || !ModelState.IsValid)
             {
                 return BadRequest();
             }
 
             var user = new ApplicationUser
             {
-                UserName = signUpRequestDTO.Email,
+                UserName = registerRequestDTO.Email,
                 EmailConfirmed = true,
-                Department = signUpRequestDTO.Department
+                Department = registerRequestDTO.Department,
+                Title = registerRequestDTO.Title
             };
             //var dubleCheckEmail = await _userManager.FindByEmailAsync(signUpRequestDTO.Email);
             //if (dubleCheckEmail == null)  
             //{
             //    return BadRequest("Email already exists");
             //}
-            var result = await _userManager.CreateAsync(user, signUpRequestDTO.Password);
+            var result = await _userManager.CreateAsync(user, registerRequestDTO.Password);
 
             if (!result.Succeeded)
             {
-                return BadRequest(new SignUpResponseDTO()
+                return BadRequest(new RegisterResponseDTO()
                 {
                     IsRegisterationSuccessful = false,
                     Errors = result.Errors.Select(u => u.Description)
                 });
             }
-            if (string.IsNullOrEmpty(signUpRequestDTO.Role))
+            if (string.IsNullOrEmpty(registerRequestDTO.Role))
             {
-                signUpRequestDTO.Role = "basic";
+                registerRequestDTO.Role = "basic";
             }
-            var roleResult = await _userManager.AddToRoleAsync(user, signUpRequestDTO.Role);
+            var roleResult = await _userManager.AddToRoleAsync(user, registerRequestDTO.Role);
             if (!roleResult.Succeeded)
             {
-                return BadRequest(new SignUpResponseDTO()
+                return BadRequest(new RegisterResponseDTO()
                 {
                     IsRegisterationSuccessful = false,
                     Errors = result.Errors.Select(u => u.Description) 
@@ -73,24 +74,24 @@ namespace LegalStatistics.AccountAPI.Controllers
             return StatusCode(201);
         }
 
-        [HttpPost("SignIn")]
-        public async Task<IActionResult> SignIn([FromBody] SignInRequestDTO signInRequestDTO)
+        [HttpPost("LogIn")]
+        public async Task<IActionResult> LogIn([FromBody] LogInRequestDTO logInRequestDTO)
         {
-            if (signInRequestDTO == null || !ModelState.IsValid)
+            if (logInRequestDTO == null || !ModelState.IsValid)
             {
                 return BadRequest();
             }
 
-            var result = await _signInManager.PasswordSignInAsync(signInRequestDTO.Email, signInRequestDTO.Password, false, false);
+            var result = await _signInManager.PasswordSignInAsync(logInRequestDTO.Email, logInRequestDTO.Password, false, false);
             if (result.Succeeded)
             { 
-                var user = await _userManager.FindByNameAsync(signInRequestDTO.Email);
+                var user = await _userManager.FindByNameAsync(logInRequestDTO.Email);
                 if (user == null)
                 {
-                    return Unauthorized(new SignInResponseDTO
+                    return Unauthorized(new LogInResponseDTO
                     {
                         IsAuthSuccessful = false,
-                        ErrorMessage = "Invalid Authentication"
+                        ErrorMessage = "Ошибка аутентификации"
                     });
                 }
 
@@ -106,23 +107,23 @@ namespace LegalStatistics.AccountAPI.Controllers
 
                 var token = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
 
-                return Ok(new SignInResponseDTO()
+                return Ok(new LogInResponseDTO()
                 {
                     IsAuthSuccessful = true,
                     Token = token,
                     UserDTO = new UserDTO()
                     {
                         Id = user.Id,
-                        UserName = user.UserName
+                        Email = user.UserName
                     }
                 });
             }
             else
             {
-                return Unauthorized(new SignInResponseDTO
+                return Unauthorized(new LogInResponseDTO
                 {
                     IsAuthSuccessful = false,
-                    ErrorMessage = "Invalid Authentication"
+                    ErrorMessage = "Ошибка аутентификации"
                 });
             }
         }
@@ -132,7 +133,7 @@ namespace LegalStatistics.AccountAPI.Controllers
         {
             if (await _roleManager.RoleExistsAsync(role))
             {
-                return BadRequest("Role already exists");
+                return BadRequest("Роль уже существует");
             }
             var result = await _roleManager.CreateAsync(new IdentityRole(role));
 
@@ -153,11 +154,12 @@ namespace LegalStatistics.AccountAPI.Controllers
             try
             {
                 claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Name,user.UserName),
-                //new Claim(ClaimTypes.Email,user.Email)//,
-                new Claim("Id",user.Id) 
-            };
+                {
+                    new Claim(ClaimTypes.Name, user.UserName),
+                    new Claim("Id", user.Id),
+                    new Claim("Department", user.Department),
+                    new Claim("Title", user.Title)
+                };
             }
             catch (Exception)
             {
