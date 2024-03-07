@@ -2,6 +2,7 @@ using LegalStatistics.AccountAPI.AccountModels;
 using LegalStatistics.AccountAPI.DataContext;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using System;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,6 +16,9 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<AppDbContext>(opt => opt.UseNpgsql(builder.Configuration.GetConnectionString("NpgConnection")));
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddDefaultTokenProviders().AddEntityFrameworkStores<AppDbContext>();
+
+var tokenModel = builder.Configuration.GetSection("JwtModel");
+builder.Services.Configure<TokenModel>(tokenModel);
 
 var app = builder.Build();
 
