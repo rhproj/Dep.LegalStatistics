@@ -31,6 +31,10 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+//app.UseCors("LegalStatsCors"); //+
+//app.UseRouting();
+
+app.UseAuthentication(); //+
 app.UseAuthorization();
 
 app.MapControllers();
