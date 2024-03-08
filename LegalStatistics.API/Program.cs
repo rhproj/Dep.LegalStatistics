@@ -1,4 +1,4 @@
-using LegalStatistics.API.DataContext;
+using LegalStatistics.ReportRepository.DataContext;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

@@ -1,7 +1,12 @@
 ﻿using LegalStatistics.ReportRepository.Models.ArbitrationProceeding;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace LegalStatistics.API.DataContext
+namespace LegalStatistics.ReportRepository.DataContext
 {
     public class AppDbContext : DbContext
     {
