@@ -45,17 +45,9 @@ builder.Services.AddDbContext<AppDbContext>(opt => opt.UseNpgsql(builder.Configu
 builder.Services.AddScoped<IArbitrationProceedingRepository, ArbitrationProceedingRepository>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
+#region jtw
 var tokenModel = builder.Configuration.GetSection("JwtModel");
 builder.Services.Configure<TokenModel>(tokenModel);
-
-builder.Services.AddCors(opt =>  //+
-{
-    opt.AddPolicy("LegalStatsCors", builder =>
-    {
-        builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
-    });
-});
-
 
 var apiSettings = tokenModel.Get<TokenModel>();
 var key = Encoding.ASCII.GetBytes(apiSettings.SecretKey);
@@ -78,7 +70,16 @@ builder.Services.AddAuthentication(opt =>
         ValidIssuer = apiSettings.ValidIssuer,
         ClockSkew = TimeSpan.Zero
     };
-});
+}); 
+#endregion
+
+//builder.Services.AddCors(opt =>  //+
+//{
+//    opt.AddPolicy("LegalStatsCors", builder =>
+//    {
+//        builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+//    });
+//});
 
 var app = builder.Build();
 
@@ -91,8 +92,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseCors("LegalStatsCors"); //+
-app.UseRouting(); //+
+//app.UseCors("LegalStatsCors"); //+
+//app.UseRouting(); //+
 
 app.UseAuthentication();
 app.UseAuthorization();
