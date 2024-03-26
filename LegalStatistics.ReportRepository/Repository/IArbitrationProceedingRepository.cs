@@ -13,12 +13,5 @@ namespace LegalStatistics.ReportRepository.Repository
 {
     public interface IArbitrationProceedingRepository : IRepositoryBase<TableAxesBase, ArbitrationProceeding_Statistics, UpsertEntryDto>
     {
-        //public Task<IEnumerable<ArbitrationProceeding_LawsuitContent>> GetLawsuitContents();
-        //public Task<IEnumerable<ArbitrationProceeding_LegalAction>> GetLegalActions();
-        //public Task<IEnumerable<ArbitrationProceeding_StatisticsDto>> GetArbitrationProceedingStatistic();
-
-        //public Task<bool> UpSertArbitrationProceedingStatistics(ArbitrationProceeding_StatisticsDto entryDTO);
-
-        //public Task<int> ClearEntryArbitrationProceedingStatistics(int entryId);
     }
 }

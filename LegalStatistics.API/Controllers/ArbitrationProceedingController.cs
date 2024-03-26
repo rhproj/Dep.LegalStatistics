@@ -9,7 +9,7 @@ namespace LegalStatistics.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class ArbitrationProceedingController : ControllerBase
     {
         private readonly IArbitrationProceedingRepository _arbitrationRepository;
@@ -21,14 +21,14 @@ namespace LegalStatistics.API.Controllers
         [HttpGet("GetLawsuitContents")]
         public async Task<IActionResult> GetLawsuitContents()
         {
-            return Ok(_arbitrationRepository.GetLawsuitContents());
+            return Ok();
         }
 
         [HttpGet("GetArbitrationProceedingStatistic")]
         //[Authorize(Roles = "basic")]
-        public async Task<IActionResult> GetArbitrationProceedingStatistic() //IEnumerable<ArbitrationProceeding_StatisticsDto>
+        public async Task<IActionResult> GetArbitrationProceedingStatistic(int reportingYear, byte reportingPeriod)
         {
-            var result = await _arbitrationRepository.GetArbitrationProceedingStatistic(); ;
+            var result = await _arbitrationRepository.GetStatistics(reportingYear, reportingPeriod);
 
             return Ok(result);
         }

@@ -15,13 +15,9 @@ using System.Threading.Tasks;
 namespace LegalStatistics.ReportRepository.Repository
 {
     public class ArbitrationProceedingRepository : IArbitrationProceedingRepository
-        //IRepositoryBase<TableAxesBase, ArbitrationProceeding_Statistics, UpsertEntryDto>   //: IArbitrationProceedingRepository
     {
         private readonly AppDbContext _dbContext;
         private readonly IMapper _mapper;
-
-        //public readonly ArbitrationProceeding_LawsuitContent[] lawsuitContent;
-        //public readonly ArbitrationProceeding_LegalAction[] legalAction;
 
         public ArbitrationProceedingRepository(AppDbContext dbContext, IMapper mapper)
         {
@@ -36,32 +32,47 @@ namespace LegalStatistics.ReportRepository.Repository
 
             if (result == null || result.Length == 0)
             {
-                result = await PopulateWithDefaultValues(result);
+                var defaultValues = await PopulateWithDefaultValues(reportingYear, reportingPeriod);
+                result = defaultValues.ToArray();
             }
-            //trc
+
             return result;
         }
 
-        public async Task<ArbitrationProceeding_Statistics[]?> PopulateWithDefaultValues(ArbitrationProceeding_Statistics[]? result)
+        public async Task<IEnumerable<ArbitrationProceeding_Statistics>> PopulateWithDefaultValues(int reportingYear, byte reportingPeriod)  //ArbitrationProceeding_Statistics[]? result
         {
-            int contentsCount = await _dbContext.ArbitrationProceeding_LawsuitContent.CountAsync();
-            int actionsCount = await _dbContext.ArbitrationProceeding_LegalAction.CountAsync();
+            var contents = await _dbContext.ArbitrationProceeding_LawsuitContent.ToArrayAsync();
+            var actions = await _dbContext.ArbitrationProceeding_LegalAction.ToArrayAsync();
+            var results = new List<ArbitrationProceeding_Statistics>();
 
-            result = new ArbitrationProceeding_Statistics[contentsCount + actionsCount];
+            for (int i = 0; i < contents.Length; i++)
+            {
+                for (int j = 0; j < actions.Length; j++)
+                {
+                    results.Add(
+                        new ArbitrationProceeding_Statistics()
+                        {
+                            LawsuitContentId = contents[i].Id,
+                            LegalActionId = actions[j].Id,
+                            Value = 0,
+                            ReportingYear = reportingYear, 
+                            ReportingPeriod = reportingPeriod,
+                            FillDate = DateTime.UtcNow
+                        });
+                }
+            }
 
-            //0000...
-
-            await _dbContext.ArbitrationProceeding_Statistics.AddRangeAsync(result);
+            await _dbContext.ArbitrationProceeding_Statistics.AddRangeAsync(results);
             await _dbContext.SaveChangesAsync();
-            return result;
+            return results;
         }
 
-        public async Task<IEnumerable<TableAxesBase>> TableContentAxes()
+        public async Task<IEnumerable<TableAxesBase>> GetTableContentAxes()
         {
             return await _dbContext.ArbitrationProceeding_LawsuitContent.ToListAsync();
         }
 
-        public async Task<IEnumerable<TableAxesBase>> TableActionAxes()
+        public async Task<IEnumerable<TableAxesBase>> GetTableActionAxes()
         {
             return await _dbContext.ArbitrationProceeding_LegalAction.ToListAsync();
         }

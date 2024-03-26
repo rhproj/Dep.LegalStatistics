@@ -9,10 +9,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace LegalStatistics.API.Migrations
+namespace LegalStatistics.ReportRepository.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240307091322_Initial")]
+    [Migration("20240311084715_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -35,6 +35,9 @@ namespace LegalStatistics.API.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
+                    b.Property<int>("Ordinal")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("text");
@@ -54,6 +57,9 @@ namespace LegalStatistics.API.Migrations
 
                     b.Property<string>("Description")
                         .HasColumnType("text");
+
+                    b.Property<int>("Ordinal")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -86,6 +92,9 @@ namespace LegalStatistics.API.Migrations
 
                     b.Property<byte>("ReportingPeriod")
                         .HasColumnType("smallint");
+
+                    b.Property<int>("ReportingYear")
+                        .HasColumnType("integer");
 
                     b.Property<int>("Value")
                         .HasColumnType("integer");

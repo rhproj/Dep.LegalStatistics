@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace LegalStatistics.API.Migrations
+namespace LegalStatistics.ReportRepository.Migrations
 {
     public partial class Initial : Migration
     {
@@ -16,6 +16,7 @@ namespace LegalStatistics.API.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Ordinal = table.Column<int>(type: "integer", nullable: false),
                     Title = table.Column<string>(type: "text", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: true)
                 },
@@ -30,6 +31,7 @@ namespace LegalStatistics.API.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Ordinal = table.Column<int>(type: "integer", nullable: false),
                     Title = table.Column<string>(type: "text", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: true)
                 },
@@ -44,11 +46,12 @@ namespace LegalStatistics.API.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Value = table.Column<int>(type: "integer", nullable: false),
                     LawsuitContentId = table.Column<int>(type: "integer", nullable: false),
                     LegalActionId = table.Column<int>(type: "integer", nullable: false),
-                    ReportingPeriod = table.Column<byte>(type: "smallint", nullable: true),
-                    FillDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    Value = table.Column<int>(type: "integer", nullable: false),
+                    ReportingYear = table.Column<int>(type: "integer", nullable: false),
+                    ReportingPeriod = table.Column<byte>(type: "smallint", nullable: false),
+                    FillDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Comments = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>

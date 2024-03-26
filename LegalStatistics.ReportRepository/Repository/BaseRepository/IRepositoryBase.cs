@@ -16,17 +16,16 @@ namespace LegalStatistics.ReportRepository.Repository.BaseRepository
         where T : TableStatisticsBase
         where V : UpsertEntryDto
     {
-        Task<IEnumerable<X>> TableContentAxes(); //GetContents();
-        Task<IEnumerable<X>> TableActionAxes(); //GetContents();
-        //Task<IEnumerable<X>> GetActions();
+        Task<IEnumerable<X>> GetTableContentAxes();
+        Task<IEnumerable<X>> GetTableActionAxes();
+
         Task<IEnumerable<T>> GetStatistics(int reportingYear, byte reportingPeriod);
+        Task<IEnumerable<T>> PopulateWithDefaultValues(int reportingYear, byte reportingPeriod);
 
         Task<bool> UpSertEntry(V entryDTO);
 
-        Task<T[]?> PopulateWithDefaultValues(T[]? statistics);
         //Task<bool> ClearAllEntries(IEnumerable<int> entries);
-        // Task<bool> ClearEntry(int entryId);
-
+        //Task<bool> ClearEntry(int entryId);
         //Task<int> SumEntries(int ordinal, IEnumerable<int> entries);
     }
 }
