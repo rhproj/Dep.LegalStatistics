@@ -27,6 +27,9 @@ namespace LegalStatistics.ReportRepository.Repository
 
         public async Task<IEnumerable<ArbitrationProceeding_Statistics>> GetStatistics(int reportingYear, byte reportingPeriod)
         {
+            ArgumentNullException.ThrowIfNull(reportingYear); 
+            ArgumentNullException.ThrowIfNull(reportingPeriod);
+
             var result = await _dbContext.ArbitrationProceeding_Statistics
                 .Where(s=>s.ReportingYear == reportingYear && s.ReportingPeriod == reportingPeriod).ToArrayAsync();
 
@@ -69,17 +72,17 @@ namespace LegalStatistics.ReportRepository.Repository
 
         public async Task<IEnumerable<TableAxesBase>> GetTableContentAxes()
         {
-            return await _dbContext.ArbitrationProceeding_LawsuitContent.ToListAsync();
+            return await _dbContext.ArbitrationProceeding_LawsuitContent.ToArrayAsync();
         }
 
         public async Task<IEnumerable<TableAxesBase>> GetTableActionAxes()
         {
-            return await _dbContext.ArbitrationProceeding_LegalAction.ToListAsync();
+            return await _dbContext.ArbitrationProceeding_LegalAction.ToArrayAsync();
         }
 
         public async Task<bool> UpSertEntry(UpsertEntryDto entryDto)
         {
-            if (entryDto == null) { throw new ArgumentNullException(nameof(entryDto)); }
+            ArgumentNullException.ThrowIfNull(entryDto);
 
             var dbEntry = await _dbContext.ArbitrationProceeding_Statistics.FirstOrDefaultAsync(s=>s.Id == entryDto.Id);
 
