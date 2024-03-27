@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using LegalStatistics.ReportRepository.Models.BaseModels.DTO;
+using Microsoft.IdentityModel.Tokens;
 
 namespace LegalStatistics.API.Controllers
 {
@@ -31,15 +32,49 @@ namespace LegalStatistics.API.Controllers
         {
             var result = await _arbitrationRepository.GetStatistics(reportingYear, reportingPeriod);
 
+            if (result.IsNullOrEmpty())
+            {
+                return NoContent();
+            }
+
             return Ok(result);
         }
 
-        // Task<bool> UpSertEntry(UpsertEntryDto entryDto)
         [HttpPost("UpSertEntry")]
         //[Authorize(Roles = "specialist")]
         public async Task<IActionResult> UpSertEntry([FromBody] UpsertEntryDto entryDto)
         {
             var result = await _arbitrationRepository.UpSertEntry(entryDto);
+            if (!result)
+            {
+                return BadRequest();
+            }
+            return Ok(result);
+        }
+
+        [HttpGet("GetTableContentAxes")]
+        public async Task<IActionResult> GetTableContentAxes()
+        {
+            var result = await _arbitrationRepository.GetTableContentAxes();
+
+            if (result.IsNullOrEmpty())
+            {
+                return NoContent();
+            }
+
+            return Ok(result);
+        }
+
+        [HttpGet("GetTableActionAxes")]
+        public async Task<IActionResult> GetTableActionAxes()
+        {
+            var result = await _arbitrationRepository.GetTableActionAxes();
+
+            if (result.IsNullOrEmpty())
+            {
+                return NoContent();
+            }
+
             return Ok(result);
         }
     }

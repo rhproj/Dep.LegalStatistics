@@ -27,19 +27,28 @@ namespace LegalStatistics.ReportRepository.Repository
 
         public async Task<IEnumerable<ArbitrationProceeding_Statistics>> GetStatistics(int reportingYear, byte reportingPeriod)
         {
-            ArgumentNullException.ThrowIfNull(reportingYear); 
-            ArgumentNullException.ThrowIfNull(reportingPeriod);
-
-            var result = await _dbContext.ArbitrationProceeding_Statistics
-                .Where(s=>s.ReportingYear == reportingYear && s.ReportingPeriod == reportingPeriod).ToArrayAsync();
-
-            if (result == null || result.Length == 0)
+            if (reportingYear < 2000 || reportingPeriod == 0 || reportingPeriod>156)
             {
-                var defaultValues = await PopulateWithDefaultValues(reportingYear, reportingPeriod);
-                result = defaultValues.ToArray();
+                throw new ArgumentOutOfRangeException();
             }
 
-            return result;
+            try
+            {
+                var result = await _dbContext.ArbitrationProceeding_Statistics
+                    .Where(s => s.ReportingYear == reportingYear && s.ReportingPeriod == reportingPeriod).ToArrayAsync();
+
+                if (result == null || result.Length == 0)
+                {
+                    var defaultValues = await PopulateWithDefaultValues(reportingYear, reportingPeriod);
+                    result = defaultValues.ToArray();
+                }
+
+                return result;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public async Task<IEnumerable<ArbitrationProceeding_Statistics>> PopulateWithDefaultValues(int reportingYear, byte reportingPeriod)  //ArbitrationProceeding_Statistics[]? result
@@ -72,25 +81,46 @@ namespace LegalStatistics.ReportRepository.Repository
 
         public async Task<IEnumerable<TableAxesBase>> GetTableContentAxes()
         {
-            return await _dbContext.ArbitrationProceeding_LawsuitContent.ToArrayAsync();
+            try
+            {
+                return await _dbContext.ArbitrationProceeding_LawsuitContent.ToArrayAsync();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public async Task<IEnumerable<TableAxesBase>> GetTableActionAxes()
         {
-            return await _dbContext.ArbitrationProceeding_LegalAction.ToArrayAsync();
+            try
+            {
+                return await _dbContext.ArbitrationProceeding_LegalAction.ToArrayAsync();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public async Task<bool> UpSertEntry(UpsertEntryDto entryDto)
         {
             ArgumentNullException.ThrowIfNull(entryDto);
 
-            var dbEntry = await _dbContext.ArbitrationProceeding_Statistics.FirstOrDefaultAsync(s=>s.Id == entryDto.Id);
+            try
+            {
+                var dbEntry = await _dbContext.ArbitrationProceeding_Statistics.FirstOrDefaultAsync(s => s.Id == entryDto.Id);
 
-            dbEntry.Value = entryDto.Value;
-            dbEntry.FillDate = DateTime.UtcNow;
-            _dbContext.ArbitrationProceeding_Statistics.Update(dbEntry);
+                dbEntry.Value = entryDto.Value;
+                dbEntry.FillDate = DateTime.UtcNow;
+                _dbContext.ArbitrationProceeding_Statistics.Update(dbEntry);
 
-            return await _dbContext.SaveChangesAsync() > 0 ? true : false;
+                return await _dbContext.SaveChangesAsync() > 0 ? true : false;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
 
