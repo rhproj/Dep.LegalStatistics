@@ -1,17 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace LegalStatistics.ReportRepository.Models.BaseModels
+﻿namespace LegalStatistics.ReportRepository.Models.BaseModels.DTO
 {
-    public abstract class TableStatisticsBase
+    public class ValueDto
     {
-        [Key]
-        public int Id { get; set; }
+        public int ContentOrdinal { get; set; }
+        public int ActionOrdinal { get; set; }
         public int Value { get; set; }
-
         public int ReportingYear { get; set; }
         public byte ReportingPeriod { get; set; }
         public DateTime FillDate { get; set; }
-
         public string? Comments { get; set; }
     }
 }

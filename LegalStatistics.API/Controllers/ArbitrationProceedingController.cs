@@ -1,10 +1,6 @@
-﻿using LegalStatistics.ReportRepository.Models.ArbitrationProceeding.DTO;
-using LegalStatistics.ReportRepository.Models.ArbitrationProceeding;
+﻿using LegalStatistics.ReportRepository.Models.BaseModels.DTO;
 using LegalStatistics.ReportRepository.Repository;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
-using LegalStatistics.ReportRepository.Models.BaseModels.DTO;
 using Microsoft.IdentityModel.Tokens;
 
 namespace LegalStatistics.API.Controllers
@@ -15,15 +11,36 @@ namespace LegalStatistics.API.Controllers
     public class ArbitrationProceedingController : ControllerBase
     {
         private readonly IArbitrationProceedingRepository _arbitrationRepository;
+
         public ArbitrationProceedingController(IArbitrationProceedingRepository arbitrationRepository)
         {
             _arbitrationRepository = arbitrationRepository;
         }
 
-        [HttpGet("GetLawsuitContents")]
-        public async Task<IActionResult> GetLawsuitContents()
+        [HttpGet("GetTableContentAxes")]
+        //[Authorize(Roles = "basic")]
+        public async Task<IActionResult> GetTableContentAxes()
         {
-            return Ok();
+            var result = await _arbitrationRepository.GetTableContentAxes();
+
+            if (result.IsNullOrEmpty())
+            {
+                return NoContent();
+            }
+            return Ok(result);
+        }
+
+        [HttpGet("GetTableActionAxes")]
+        //[Authorize(Roles = "basic")]
+        public async Task<IActionResult> GetTableActionAxes()
+        {
+            var result = await _arbitrationRepository.GetTableActionAxes();
+
+            if (result.IsNullOrEmpty())
+            {
+                return NoContent();
+            }
+            return Ok(result);
         }
 
         [HttpGet("GetArbitrationProceedingStatistic")]
@@ -36,7 +53,6 @@ namespace LegalStatistics.API.Controllers
             {
                 return NoContent();
             }
-
             return Ok(result);
         }
 
@@ -49,32 +65,6 @@ namespace LegalStatistics.API.Controllers
             {
                 return BadRequest();
             }
-            return Ok(result);
-        }
-
-        [HttpGet("GetTableContentAxes")]
-        public async Task<IActionResult> GetTableContentAxes()
-        {
-            var result = await _arbitrationRepository.GetTableContentAxes();
-
-            if (result.IsNullOrEmpty())
-            {
-                return NoContent();
-            }
-
-            return Ok(result);
-        }
-
-        [HttpGet("GetTableActionAxes")]
-        public async Task<IActionResult> GetTableActionAxes()
-        {
-            var result = await _arbitrationRepository.GetTableActionAxes();
-
-            if (result.IsNullOrEmpty())
-            {
-                return NoContent();
-            }
-
             return Ok(result);
         }
     }

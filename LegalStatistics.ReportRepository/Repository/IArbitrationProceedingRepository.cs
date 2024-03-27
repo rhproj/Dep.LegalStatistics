@@ -1,5 +1,4 @@
 ﻿using LegalStatistics.ReportRepository.Models.ArbitrationProceeding;
-using LegalStatistics.ReportRepository.Models.ArbitrationProceeding.DTO;
 using LegalStatistics.ReportRepository.Models.BaseModels.DTO;
 using LegalStatistics.ReportRepository.Models.BaseModels;
 using LegalStatistics.ReportRepository.Repository.BaseRepository;
@@ -11,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace LegalStatistics.ReportRepository.Repository
 {
-    public interface IArbitrationProceedingRepository : IRepositoryBase<TableAxesBase, ArbitrationProceeding_Statistics, UpsertEntryDto>
+    public interface IArbitrationProceedingRepository : IRepositoryBase<AxesDto, ValueDto, UpsertEntryDto>
     {
     }
 }

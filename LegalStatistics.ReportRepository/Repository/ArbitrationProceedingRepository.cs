@@ -1,16 +1,9 @@
 ﻿using AutoMapper;
 using LegalStatistics.ReportRepository.DataContext;
 using LegalStatistics.ReportRepository.Models.ArbitrationProceeding;
-using LegalStatistics.ReportRepository.Models.ArbitrationProceeding.DTO;
 using LegalStatistics.ReportRepository.Models.BaseModels;
 using LegalStatistics.ReportRepository.Models.BaseModels.DTO;
-using LegalStatistics.ReportRepository.Repository.BaseRepository;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LegalStatistics.ReportRepository.Repository
 {
@@ -25,7 +18,7 @@ namespace LegalStatistics.ReportRepository.Repository
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<ArbitrationProceeding_Statistics>> GetStatistics(int reportingYear, byte reportingPeriod)
+        public async Task<IEnumerable<ValueDto>> GetStatistics(int reportingYear, byte reportingPeriod)
         {
             if (reportingYear < 2000 || reportingPeriod == 0 || reportingPeriod>156)
             {
@@ -34,16 +27,19 @@ namespace LegalStatistics.ReportRepository.Repository
 
             try
             {
-                var result = await _dbContext.ArbitrationProceeding_Statistics
-                    .Where(s => s.ReportingYear == reportingYear && s.ReportingPeriod == reportingPeriod).ToArrayAsync();
+                var values = await _dbContext.ArbitrationProceeding_Statistics
+                    .Where(s => s.ReportingYear == reportingYear && s.ReportingPeriod == reportingPeriod)
+                    .Include(s=>s.LawsuitContent)
+                    .Include(s => s.LegalAction)
+                    .ToArrayAsync();
 
-                if (result == null || result.Length == 0)
+                if (values == null || values.Length == 0)
                 {
                     var defaultValues = await PopulateWithDefaultValues(reportingYear, reportingPeriod);
-                    result = defaultValues.ToArray();
+                    values = defaultValues.ToArray();
                 }
 
-                return result;
+                return _mapper.Map<ArbitrationProceeding_Statistics[], ValueDto[]>(values);
             }
             catch (Exception)
             {
@@ -51,17 +47,17 @@ namespace LegalStatistics.ReportRepository.Repository
             }
         }
 
-        public async Task<IEnumerable<ArbitrationProceeding_Statistics>> PopulateWithDefaultValues(int reportingYear, byte reportingPeriod)  //ArbitrationProceeding_Statistics[]? result
+        private async Task<IEnumerable<ArbitrationProceeding_Statistics>> PopulateWithDefaultValues(int reportingYear, byte reportingPeriod)  //ArbitrationProceeding_Statistics[]? result
         {
             var contents = await _dbContext.ArbitrationProceeding_LawsuitContent.ToArrayAsync();
             var actions = await _dbContext.ArbitrationProceeding_LegalAction.ToArrayAsync();
-            var results = new List<ArbitrationProceeding_Statistics>();
+            var values = new List<ArbitrationProceeding_Statistics>();
 
             for (int i = 0; i < contents.Length; i++)
             {
                 for (int j = 0; j < actions.Length; j++)
                 {
-                    results.Add(
+                    values.Add(
                         new ArbitrationProceeding_Statistics()
                         {
                             LawsuitContentId = contents[i].Id,
@@ -74,16 +70,17 @@ namespace LegalStatistics.ReportRepository.Repository
                 }
             }
 
-            await _dbContext.ArbitrationProceeding_Statistics.AddRangeAsync(results);
+            await _dbContext.ArbitrationProceeding_Statistics.AddRangeAsync(values);
             await _dbContext.SaveChangesAsync();
-            return results;
+            return values;  
         }
 
-        public async Task<IEnumerable<TableAxesBase>> GetTableContentAxes()
+        public async Task<IEnumerable<AxesDto>> GetTableContentAxes()
         {
             try
             {
-                return await _dbContext.ArbitrationProceeding_LawsuitContent.ToArrayAsync();
+                var lawsuitContents = await _dbContext.ArbitrationProceeding_LawsuitContent.ToArrayAsync();
+                return _mapper.Map<TableAxesBase[], AxesDto[]>(lawsuitContents);
             }
             catch (Exception)
             {
@@ -91,11 +88,12 @@ namespace LegalStatistics.ReportRepository.Repository
             }
         }
 
-        public async Task<IEnumerable<TableAxesBase>> GetTableActionAxes()
+        public async Task<IEnumerable<AxesDto>> GetTableActionAxes()
         {
             try
             {
-                return await _dbContext.ArbitrationProceeding_LegalAction.ToArrayAsync();
+                var legalActions = await _dbContext.ArbitrationProceeding_LegalAction.ToArrayAsync();
+                return _mapper.Map<TableAxesBase[], AxesDto[]>(legalActions);
             }
             catch (Exception)
             {
@@ -122,31 +120,5 @@ namespace LegalStatistics.ReportRepository.Repository
                 throw;
             }
         }
-
-
-        //public async Task<int> ClearEntryArbitrationProceedingStatistics(int entryId)
-        //{
-        //    return 0;
-        //}
-
-        //public async Task<IEnumerable<ArbitrationProceeding_StatisticsDto>> GetArbitrationProceedingStatistic()
-        //{
-        //    return new List<ArbitrationProceeding_StatisticsDto>();
-        //}
-
-        //public async Task<IEnumerable<ArbitrationProceeding_LawsuitContent>> GetLawsuitContents()
-        //{
-        //    return new List<ArbitrationProceeding_LawsuitContent>();
-        //}
-
-        //public async Task<IEnumerable<ArbitrationProceeding_LegalAction>> GetLegalActions()
-        //{
-        //    return new List<ArbitrationProceeding_LegalAction>();
-        //}
-
-        //public async Task<bool> UpSertArbitrationProceedingStatistics(ArbitrationProceeding_StatisticsDto entryDTO)
-        //{
-        //    return true;
-        //}
     }
 }
