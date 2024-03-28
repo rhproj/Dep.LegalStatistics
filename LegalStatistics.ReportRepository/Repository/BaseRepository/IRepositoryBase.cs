@@ -10,12 +10,12 @@ namespace LegalStatistics.ReportRepository.Repository.BaseRepository
         Task<IEnumerable<X>> GetTableContentAxes();
         Task<IEnumerable<X>> GetTableActionAxes();
 
-        Task<IEnumerable<T>> GetStatistics(int reportingYear, byte reportingPeriod);
+        Task<IEnumerable<T>> GetStatistics(ReportingPeriodDto reportingPeriodDto); //int reportingYear, byte reportingPeriod);
 
         Task<bool> UpSertEntry(E entryDTO);
 
-        //Task<bool> ClearAllEntries(IEnumerable<int> entries);
-        //Task<bool> ClearEntry(int entryId);
+        Task<IEnumerable<T>> ResetAllEntriesToZero(ReportingPeriodDto reportingPeriodDto);
+
         //Task<int> SumEntries(int ordinal, IEnumerable<int> entries);
     }
 }
