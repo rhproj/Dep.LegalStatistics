@@ -1,7 +1,8 @@
 using LegalStatistics.AccountAPI.AccountModels;
-using LegalStatistics.API.Controllers;
 using LegalStatistics.ReportRepository.DataContext;
+using LegalStatistics.ReportRepository.Models.BaseModels.DTO;
 using LegalStatistics.ReportRepository.Repository;
+using LegalStatistics.ReportRepository.Repository.BaseRepository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -43,6 +44,7 @@ builder.Services.AddSwaggerGen(c =>
 
 builder.Services.AddDbContext<AppDbContext>(opt => opt.UseNpgsql(builder.Configuration.GetConnectionString("NpgConnection")));
 builder.Services.AddScoped<IArbitrationProceedingRepository, ArbitrationProceedingRepository>();
+builder.Services.AddScoped<IAxesRepository<AxesDto>, AxesRepository>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 #region jtw

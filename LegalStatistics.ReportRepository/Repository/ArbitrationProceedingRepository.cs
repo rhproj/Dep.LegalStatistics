@@ -70,36 +70,9 @@ namespace LegalStatistics.ReportRepository.Repository
             return values;  
         }
 
-        public async Task<IEnumerable<AxesDto>> GetTableContentAxes()
-        {
-            try
-            {
-                var lawsuitContents = await _dbContext.ArbitrationProceeding_LawsuitContent.ToArrayAsync();
-                return _mapper.Map<TableAxesBase[], AxesDto[]>(lawsuitContents);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-
-        public async Task<IEnumerable<AxesDto>> GetTableActionAxes()
-        {
-            try
-            {
-                var legalActions = await _dbContext.ArbitrationProceeding_LegalAction.ToArrayAsync();
-                return _mapper.Map<TableAxesBase[], AxesDto[]>(legalActions);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-
         public async Task<bool> UpSertEntry(UpsertEntryDto entryDto)
         {
             ArgumentNullException.ThrowIfNull(entryDto);
-
             try
             {
                 var dbEntry = await _dbContext.ArbitrationProceeding_Statistics.FirstOrDefaultAsync(s => s.Id == entryDto.Id);
@@ -118,6 +91,7 @@ namespace LegalStatistics.ReportRepository.Repository
 
         public async Task<IEnumerable<ValueDto>> ResetAllEntriesToZero(ReportingPeriodDto reportingPeriodDto)
         {
+            ArgumentNullException.ThrowIfNull(reportingPeriodDto);
             try
             {
                 var valuesToReser = await _dbContext.ArbitrationProceeding_Statistics.Where(s => s.ReportingYear == reportingPeriodDto.ReportingYear && s.ReportingPeriod == reportingPeriodDto.ReportingPeriod).ToArrayAsync();

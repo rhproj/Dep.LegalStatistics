@@ -23,33 +23,6 @@ namespace LegalStatistics.API.Controllers
         //    return Ok($"Year = {reportingPeriodDto.ReportingYear}  Period = {reportingPeriodDto.ReportingPeriod}");
         //}
 
-
-        [HttpGet("GetTableContentAxes")]
-        //[Authorize(Roles = "basic")]
-        public async Task<IActionResult> GetTableContentAxes()
-        {
-            var result = await _arbitrationRepository.GetTableContentAxes();
-
-            if (result.IsNullOrEmpty())
-            {
-                return NoContent();
-            }
-            return Ok(result);
-        }
-
-        [HttpGet("GetTableActionAxes")]
-        //[Authorize(Roles = "basic")]
-        public async Task<IActionResult> GetTableActionAxes()
-        {
-            var result = await _arbitrationRepository.GetTableActionAxes();
-
-            if (result.IsNullOrEmpty())
-            {
-                return NoContent();
-            }
-            return Ok(result);
-        }
-
         [HttpGet("GetArbitrationProceedingStatistic")]
         //[Authorize(Roles = "basic")]
         public async Task<IActionResult> GetArbitrationProceedingStatistic([FromQuery] ReportingPeriodDto reportingPeriodDto)

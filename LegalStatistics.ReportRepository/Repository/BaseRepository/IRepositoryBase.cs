@@ -2,20 +2,12 @@
 
 namespace LegalStatistics.ReportRepository.Repository.BaseRepository
 {
-    public interface IRepositoryBase<X, T, E> 
-        where X : AxesDto 
+    public interface IRepositoryBase<T, E> 
         where T : ValueDto
         where E : UpsertEntryDto
     {
-        Task<IEnumerable<X>> GetTableContentAxes();
-        Task<IEnumerable<X>> GetTableActionAxes();
-
-        Task<IEnumerable<T>> GetStatistics(ReportingPeriodDto reportingPeriodDto); //int reportingYear, byte reportingPeriod);
-
+        Task<IEnumerable<T>> GetStatistics(ReportingPeriodDto reportingPeriodDto);
         Task<bool> UpSertEntry(E entryDTO);
-
         Task<IEnumerable<T>> ResetAllEntriesToZero(ReportingPeriodDto reportingPeriodDto);
-
-        //Task<int> SumEntries(int ordinal, IEnumerable<int> entries);
     }
 }
