@@ -5,7 +5,7 @@ using LegalStatistics.ReportRepository.Models.BaseModels;
 using LegalStatistics.ReportRepository.Models.BaseModels.DTO;
 using Microsoft.EntityFrameworkCore;
 
-namespace LegalStatistics.ReportRepository.Repository
+namespace LegalStatistics.ReportRepository.Repository.ArbitrationProceeding
 {
     public class ArbitrationProceedingRepository : IArbitrationProceedingRepository
     {
@@ -14,7 +14,7 @@ namespace LegalStatistics.ReportRepository.Repository
 
         public ArbitrationProceedingRepository(AppDbContext dbContext, IMapper mapper)
         {
-            _dbContext = dbContext;        
+            _dbContext = dbContext;
             _mapper = mapper;
         }
 
@@ -24,7 +24,7 @@ namespace LegalStatistics.ReportRepository.Repository
             {
                 var values = await _dbContext.ArbitrationProceeding_Statistics
                     .Where(s => s.ReportingYear == reportingPeriodDto.ReportingYear && s.ReportingPeriod == reportingPeriodDto.ReportingPeriod)
-                    .Include(s=>s.LawsuitContent)
+                    .Include(s => s.LawsuitContent)
                     .Include(s => s.LegalAction)
                     .ToArrayAsync();
 
@@ -67,7 +67,7 @@ namespace LegalStatistics.ReportRepository.Repository
 
             await _dbContext.ArbitrationProceeding_Statistics.AddRangeAsync(values);
             await _dbContext.SaveChangesAsync();
-            return values;  
+            return values;
         }
 
         public async Task<bool> UpSertEntry(UpsertEntryDto entryDto)

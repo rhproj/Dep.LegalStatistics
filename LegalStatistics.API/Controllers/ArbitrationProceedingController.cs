@@ -1,5 +1,5 @@
 ﻿using LegalStatistics.ReportRepository.Models.BaseModels.DTO;
-using LegalStatistics.ReportRepository.Repository;
+using LegalStatistics.ReportRepository.Repository.ArbitrationProceeding;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 

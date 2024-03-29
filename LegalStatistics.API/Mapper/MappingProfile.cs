@@ -9,12 +9,14 @@ namespace LegalStatistics.API.Mapper
     {
         public MappingProfile()
         {
-            CreateMap<TableAxesBase, AxesDto>().ReverseMap();
-
             CreateMap<ArbitrationProceeding_Statistics, ValueDto>()
                 .ForMember(s=>s.ActionOrdinal, s=>s.MapFrom(a=>a.LegalAction.Ordinal))
                 .ForMember(s=>s.ContentOrdinal, s=>s.MapFrom(a=>a.LawsuitContent.Ordinal))
                 .ReverseMap();
+
+            CreateMap<TableAxesBase, AxisDto>().ReverseMap();
+            CreateMap<ArbitrationProceeding_LawsuitContent, AxisDto>().ReverseMap();
+            CreateMap<ArbitrationProceeding_LegalAction, AxisDto>().ReverseMap();
         }
     }
 }
