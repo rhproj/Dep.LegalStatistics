@@ -50,6 +50,8 @@ namespace LegalStatistics.ReportRepository.Repository.BaseRepository
             ArgumentNullException.ThrowIfNull(nameof(axisDto));
             try
             {
+                axisDto.Ordinal = await SetOrdinal(_dbContext.Set<TValue>(), axisDto.Ordinal);
+
                 var axisToAdd = _mapper.Map<TDto, TValue>(axisDto);
                 await _dbContext.Set<TValue>().AddAsync(axisToAdd);
                 return await _dbContext.SaveChangesAsync() > 0 ? true : false;
@@ -60,6 +62,11 @@ namespace LegalStatistics.ReportRepository.Repository.BaseRepository
             }
         }
 
+        private async Task<int> SetOrdinal<TValue>(DbSet<TValue> dbset, int ordinal) where TValue : TableAxesBase
+        {
+            var ordinals = await dbset.Select(x => x.Ordinal).ToArrayAsync();
+            return ordinals.Contains(ordinal) ? ordinals.Max() + 1 : ordinal;
+        }
 
 
         #region b2

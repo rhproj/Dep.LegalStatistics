@@ -39,18 +39,6 @@ namespace LegalStatistics.ReportRepository.Repository.ArbitrationProceeding
         public async Task<bool> AddToLegalActionAxes(AxisDto axisDto)
         {
             return await _axesService.AddValueToAxes<ArbitrationProceeding_LegalAction, AxisDto>(axisDto);
-
-            //ArgumentNullException.ThrowIfNull(nameof(axisDto));
-            //try
-            //{
-            //    var axisToAdd = _mapper.Map<AxisDto, TAction>(axisDto);
-            //    await _dbContext.Set<TAction>().AddAsync(axisToAdd);
-            //    return await _dbContext.SaveChangesAsync() > 0 ? true : false;
-            //}
-            //catch (Exception)
-            //{
-            //    throw;
-            //}
         }
 
 
