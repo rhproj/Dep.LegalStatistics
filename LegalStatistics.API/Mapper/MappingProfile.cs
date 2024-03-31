@@ -14,9 +14,9 @@ namespace LegalStatistics.API.Mapper
                 .ForMember(s=>s.ContentOrdinal, s=>s.MapFrom(a=>a.LawsuitContent.Ordinal))
                 .ReverseMap();
 
-            CreateMap<TableAxesBase, AxisDto>().ReverseMap();
-            CreateMap<ArbitrationProceeding_LawsuitContent, AxisDto>().ReverseMap();
-            CreateMap<ArbitrationProceeding_LegalAction, AxisDto>().ReverseMap();
+            CreateMap<TableAxesBase, AxisUptDto>().ReverseMap();
+            CreateMap<ArbitrationProceeding_LawsuitContent, AxisUptDto>().ReverseMap();
+            CreateMap<ArbitrationProceeding_LegalAction, AxisUptDto>().ReverseMap();
         }
     }
 }

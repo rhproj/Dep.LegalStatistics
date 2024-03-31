@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LegalStatistics.ReportRepository.Repository.ArbitrationProceeding
 {
-    public class ArbitrationProceedingAxesRepository : I2DAxesRepositoryBase<AxisDto> //: AxesRepositoryBase<ArbitrationProceeding_LawsuitContent, ArbitrationProceeding_LegalAction>
+    public class ArbitrationProceedingAxesRepository : I2DAxesRepositoryBase<AxisUptDto> //: AxesRepositoryBase<ArbitrationProceeding_LawsuitContent, ArbitrationProceeding_LegalAction>
     {
         private readonly AppDbContext _dbContext;
         private readonly IMapper _mapper;
@@ -21,33 +21,47 @@ namespace LegalStatistics.ReportRepository.Repository.ArbitrationProceeding
             _axesService = axesBase;
         }
 
-        public async Task<IEnumerable<AxisDto>> GetLawsuitContentAxes()
+        public async Task<IEnumerable<AxisUptDto>> GetLawsuitContentAxes()
         {
-            return await _axesService.GetAxesValues<ArbitrationProceeding_LawsuitContent, AxisDto>();
+            return await _axesService.GetAxesValues<ArbitrationProceeding_LawsuitContent, AxisUptDto>();
         }
         
-        public async Task<IEnumerable<AxisDto>> GetLegalActionAxes()
+        public async Task<IEnumerable<AxisUptDto>> GetLegalActionAxes()
         {
-            return await _axesService.GetAxesValues<ArbitrationProceeding_LegalAction, AxisDto>();
+            return await _axesService.GetAxesValues<ArbitrationProceeding_LegalAction, AxisUptDto>();
         }
 
-        public async Task<bool> AddToLawsuitContentAxes(AxisDto axisDto)
+        public async Task<bool> AddToLawsuitContentAxes(AxisUptDto axisDto)
         {
-            return await _axesService.AddValueToAxes<ArbitrationProceeding_LawsuitContent, AxisDto>(axisDto);
+            return await _axesService.AddValueToAxes<ArbitrationProceeding_LawsuitContent, AxisUptDto>(axisDto);
         }
         
-        public async Task<bool> AddToLegalActionAxes(AxisDto axisDto)
+        public async Task<bool> AddToLegalActionAxes(AxisUptDto axisDto)
         {
-            return await _axesService.AddValueToAxes<ArbitrationProceeding_LegalAction, AxisDto>(axisDto);
+            return await _axesService.AddValueToAxes<ArbitrationProceeding_LegalAction, AxisUptDto>(axisDto);
+        }
+
+        public async Task<bool> UpdateContentAxis(int axisId)
+        {
+            return await _axesService.UpdateAxis<ArbitrationProceeding_LawsuitContent, AxisUptDto>(axisId);
+        }
+
+        public async Task<bool> UpdateActionAxis(int axisId)
+        {
+            return await _axesService.UpdateAxis<ArbitrationProceeding_LegalAction, AxisUptDto>(axisId);
+        }
+
+        public async Task<bool> RemoveFromContentAxes(int axisId)
+        {
+            return await _axesService.RemoveFromAxes<ArbitrationProceeding_LawsuitContent, AxisUptDto>(axisId);
+        }
+
+        public async Task<bool> RemoveFromActionAxes(int axisId)
+        {
+            return await _axesService.RemoveFromAxes<ArbitrationProceeding_LegalAction, AxisUptDto>(axisId);
         }
 
 
-
-        private async Task<int> SetOrdinal<T>(DbSet<T> dbset, int ordinal) where T : TableAxesBase
-        {
-            var ordinals = await dbset.Select(x => x.Ordinal).ToArrayAsync();
-            return ordinals.Contains(ordinal) ? ordinals.Max() + 1 : ordinal;
-        }
 
 
 

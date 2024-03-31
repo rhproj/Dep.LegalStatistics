@@ -50,7 +50,7 @@ builder.Services.AddScoped<IAxesService, AxesService>();
 //
 builder.Services.AddScoped<IArbitrationProceedingRepository, ArbitrationProceedingRepository>();
 
-builder.Services.AddScoped<I2DAxesRepositoryBase<AxisDto>, ArbitrationProceedingAxesRepository>();
+builder.Services.AddScoped<I2DAxesRepositoryBase<AxisUptDto>, ArbitrationProceedingAxesRepository>();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
