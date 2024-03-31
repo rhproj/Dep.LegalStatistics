@@ -4,15 +4,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LegalStatistics.ReportRepository.Repository.BaseRepository
 {
-    public interface IAxesRepository<T, X> 
-        where T : TableAxesBase
-        where X : AxisDto 
+    public interface IAxesRepositoryBase<TValue> where TValue : AxisDto 
     {
-        Task<IEnumerable<X>> GetTableContentAxes(); // DbSet<T> dbset);
-        //Task<IEnumerable<X>> GetTableActionAxes();
+        Task<IEnumerable<TValue>> GetLawsuitContentAxes(); // DbSet<T> dbset);
+        Task<IEnumerable<TValue>> GetLegalActionAxes(); // DbSet<T> dbset);
 
-        //Task<bool> AddToContentAxes(X axisDto);
-        //Task<bool> AddToActionAxes(X axisDto);
+        Task<bool> AddToLawsuitContentAxes(TValue axisDto);
+        Task<bool> AddToLegalActionAxes(TValue axisDto);
 
         //Task<bool> UpdateContentAxis(int axisId);
         //Task<bool> UpdateActionAxis(int axisId);

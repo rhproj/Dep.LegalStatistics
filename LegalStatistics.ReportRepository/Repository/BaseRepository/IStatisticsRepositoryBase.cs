@@ -2,13 +2,13 @@
 
 namespace LegalStatistics.ReportRepository.Repository.BaseRepository
 {
-    public interface IStatisticsRepositoryBase<Tdto, Edto, Pdto>  
-        where Tdto : DtoBase
-        where Edto : DtoBase
-        where Pdto : ReportingPeriodDto
+    public interface IStatisticsRepositoryBase<TValue, TEntry, TPeriod>  
+        where TValue : DtoBase
+        where TEntry : DtoBase
+        where TPeriod : ReportingPeriodDto
     {
-        Task<IEnumerable<Tdto>> GetStatistics(Pdto reportingPeriodDto);
-        Task<IEnumerable<Tdto>> ResetAllEntriesToZero(Pdto reportingPeriodDto);
-        Task<bool> UpSertEntry(Edto entryDTO);
+        Task<IEnumerable<TValue>> GetStatistics(TPeriod reportingPeriodDto);
+        Task<IEnumerable<TValue>> ResetAllEntriesToZero(TPeriod reportingPeriodDto);
+        Task<bool> UpSertEntry(TEntry entryDTO);
     }
 }

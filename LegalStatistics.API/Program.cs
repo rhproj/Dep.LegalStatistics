@@ -47,7 +47,7 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddDbContext<AppDbContext>(opt => opt.UseNpgsql(builder.Configuration.GetConnectionString("NpgConnection")));
 builder.Services.AddScoped<IArbitrationProceedingRepository, ArbitrationProceedingRepository>();
 
-builder.Services.AddScoped<IAxesRepository<ArbitrationProceeding_LawsuitContent, AxisDto>, ArbitrationProceedingAxesRepository>();
+builder.Services.AddScoped<IAxesRepositoryBase<AxisDto>, ArbitrationProceedingAxesRepository>();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 

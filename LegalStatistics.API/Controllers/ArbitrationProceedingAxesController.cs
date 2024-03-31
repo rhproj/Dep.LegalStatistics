@@ -11,17 +11,17 @@ namespace LegalStatistics.API.Controllers
     //[Authorize]
     public class ArbitrationProceedingAxesController : ControllerBase
     {
-        private readonly IAxesRepository<ArbitrationProceeding_LawsuitContent, AxisDto> _axesRepository;
-        public ArbitrationProceedingAxesController(IAxesRepository<ArbitrationProceeding_LawsuitContent, AxisDto> axesRepository)
+        private readonly IAxesRepositoryBase<AxisDto> _axesRepository;
+        public ArbitrationProceedingAxesController(IAxesRepositoryBase<AxisDto> axesRepository)
         {
             _axesRepository = axesRepository;
         }
 
-        [HttpGet("GetTableContentAxes")]
+        [HttpGet("GetLawsuitContentAxes")]
         //[Authorize(Roles = "basic")]
-        public async Task<IActionResult> GetTableContentAxes()
+        public async Task<IActionResult> GetLawsuitContentAxes()
         {
-            var result = await _axesRepository.GetTableContentAxes(); //GetTableContentAxes();
+            var result = await _axesRepository.GetLawsuitContentAxes(); //GetTableContentAxes();
 
             if (result.IsNullOrEmpty())
             {
@@ -30,18 +30,18 @@ namespace LegalStatistics.API.Controllers
             return Ok(result);
         }
 
-        //[HttpGet("GetTableActionAxes")]
-        ////[Authorize(Roles = "basic")]
-        //public async Task<IActionResult> GetTableActionAxes()
-        //{
-        //    var result = await _axesRepository.GetTableActionAxes();
+        [HttpGet("GetLegalActionAxes")]
+        //[Authorize(Roles = "basic")]
+        public async Task<IActionResult> GetLegalActionAxes()
+        {
+            var result = await _axesRepository.GetLegalActionAxes();
 
-        //    if (result.IsNullOrEmpty())
-        //    {
-        //        return NoContent();
-        //    }
-        //    return Ok(result);
-        //}
+            if (result.IsNullOrEmpty())
+            {
+                return NoContent();
+            }
+            return Ok(result);
+        }
 
         //[HttpPost("AddToContentAxes")]
         //public async Task<IActionResult> AddToContentAxes([FromBody] AxisDto axisDto)
