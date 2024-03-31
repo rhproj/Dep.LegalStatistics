@@ -8,12 +8,50 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LegalStatistics.ReportRepository.Repository.ArbitrationProceeding
 {
-    public class ArbitrationProceedingAxesRepository : AxesRepositoryBase<ArbitrationProceeding_LawsuitContent, ArbitrationProceeding_LegalAction>
+    public class ArbitrationProceedingAxesRepository : I2DAxesRepositoryBase<AxisDto> //: AxesRepositoryBase<ArbitrationProceeding_LawsuitContent, ArbitrationProceeding_LegalAction>
     {
         private readonly AppDbContext _dbContext;
         private readonly IMapper _mapper;
+        private readonly IAxesService _axesService;
 
-        public ArbitrationProceedingAxesRepository(AppDbContext dbContext, IMapper mapper) : base(dbContext, mapper) {}
+        public ArbitrationProceedingAxesRepository(AppDbContext dbContext, IMapper mapper, IAxesService axesBase) //: base(dbContext, mapper) {}
+        {
+            _dbContext = dbContext;
+            _mapper = mapper;
+            _axesService = axesBase;
+        }
+
+        public async Task<IEnumerable<AxisDto>> GetLawsuitContentAxes()
+        {
+            return await _axesService.GetAxesValues<ArbitrationProceeding_LawsuitContent, AxisDto>();
+        }
+        
+        public async Task<IEnumerable<AxisDto>> GetLegalActionAxes()
+        {
+            return await _axesService.GetAxesValues<ArbitrationProceeding_LegalAction, AxisDto>();
+        }
+
+        public async Task<bool> AddToLawsuitContentAxes(AxisDto axisDto)
+        {
+            return await _axesService.AddValueToAxes<ArbitrationProceeding_LawsuitContent, AxisDto>(axisDto);
+        }
+        
+        public async Task<bool> AddToLegalActionAxes(AxisDto axisDto)
+        {
+            return await _axesService.AddValueToAxes<ArbitrationProceeding_LegalAction, AxisDto>(axisDto);
+
+            //ArgumentNullException.ThrowIfNull(nameof(axisDto));
+            //try
+            //{
+            //    var axisToAdd = _mapper.Map<AxisDto, TAction>(axisDto);
+            //    await _dbContext.Set<TAction>().AddAsync(axisToAdd);
+            //    return await _dbContext.SaveChangesAsync() > 0 ? true : false;
+            //}
+            //catch (Exception)
+            //{
+            //    throw;
+            //}
+        }
 
 
 

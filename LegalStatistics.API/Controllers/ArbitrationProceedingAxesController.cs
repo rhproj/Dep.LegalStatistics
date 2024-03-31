@@ -11,8 +11,8 @@ namespace LegalStatistics.API.Controllers
     //[Authorize]
     public class ArbitrationProceedingAxesController : ControllerBase
     {
-        private readonly IAxesRepositoryBase<AxisDto> _axesRepository;
-        public ArbitrationProceedingAxesController(IAxesRepositoryBase<AxisDto> axesRepository)
+        private readonly I2DAxesRepositoryBase<AxisDto> _axesRepository;
+        public ArbitrationProceedingAxesController(I2DAxesRepositoryBase<AxisDto> axesRepository)
         {
             _axesRepository = axesRepository;
         }
@@ -43,15 +43,26 @@ namespace LegalStatistics.API.Controllers
             return Ok(result);
         }
 
-        //[HttpPost("AddToContentAxes")]
-        //public async Task<IActionResult> AddToContentAxes([FromBody] AxisDto axisDto)
-        //{
-        //    var result = await _axesRepository.AddToContentAxes(axisDto);
-        //    if (!result)
-        //    {
-        //        return BadRequest();
-        //    }
-        //    return Ok(result);
-        //}
+        [HttpPost("AddToLawsuitContentAxes")]
+        public async Task<IActionResult> AddToLawsuitContentAxes([FromBody] AxisDto axisDto)
+        {
+            var result = await _axesRepository.AddToLawsuitContentAxes(axisDto);
+            if (!result)
+            {
+                return BadRequest();
+            }
+            return Ok(result);
+        }
+
+        [HttpPost("AddToLegalActionAxes")]
+        public async Task<IActionResult> AddToLegalActionAxes([FromBody] AxisDto axisDto)
+        {
+            var result = await _axesRepository.AddToLegalActionAxes(axisDto);
+            if (!result)
+            {
+                return BadRequest();
+            }
+            return Ok(result);
+        }
     }
 }
