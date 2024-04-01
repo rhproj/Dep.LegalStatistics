@@ -37,7 +37,7 @@ namespace LegalStatistics.API.Controllers
         }
 
         [HttpPost("UpSertEntry")]
-        //[Authorize(Roles = "specialist")]
+        //[Authorize(Roles = "operative")] //specialist
         public async Task<IActionResult> UpSertEntry([FromBody] UpsertEntryDto entryDto)
         {
             var result = await _arbitrationRepository.UpSertEntry(entryDto);
@@ -49,7 +49,7 @@ namespace LegalStatistics.API.Controllers
         }
 
         [HttpPost("ResetAllEntries")]
-        //[Authorize(Roles = "specialist")]
+        //[Authorize(Roles = "operative")] //specialist
         public async Task<IActionResult> ResetAllEntries([FromBody] ReportingPeriodDto reportingPeriodDto)  //int reportingYear, byte reportingPeriod)
         {
             var result = await _arbitrationRepository.ResetAllEntriesToZero(reportingPeriodDto);

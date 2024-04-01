@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using LegalStatistics.ReportRepository.DataContext;
 using LegalStatistics.ReportRepository.Models.ArbitrationProceeding;
-using LegalStatistics.ReportRepository.Models.BaseModels;
 using LegalStatistics.ReportRepository.Models.BaseModels.DTO;
 using Microsoft.EntityFrameworkCore;
 

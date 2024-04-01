@@ -1,19 +1,17 @@
-﻿using LegalStatistics.ReportRepository.Models.BaseModels;
-using LegalStatistics.ReportRepository.Models.BaseModels.DTO;
-using Microsoft.EntityFrameworkCore;
+﻿using LegalStatistics.ReportRepository.Models.BaseModels.DTO;
 
 namespace LegalStatistics.ReportRepository.Repository.BaseRepository
 {
-    public interface I2DAxesRepositoryBase<TDto> where TDto : AxisUptDto 
+    public interface I2DAxesRepositoryBase
     {
-        Task<IEnumerable<TDto>> GetLawsuitContentAxes(); // DbSet<T> dbset);
-        Task<IEnumerable<TDto>> GetLegalActionAxes(); // DbSet<T> dbset);
+        Task<IEnumerable<AxisDto>> GetLawsuitContentAxes();
+        Task<IEnumerable<AxisDto>> GetLegalActionAxes();
 
-        Task<bool> AddToLawsuitContentAxes(TDto axisDto);
-        Task<bool> AddToLegalActionAxes(TDto axisDto);
+        Task<bool> AddToLawsuitContentAxes(AxisUpDto axisDto);
+        Task<bool> AddToLegalActionAxes(AxisUpDto axisDto);
 
-        Task<bool> UpdateContentAxis(int axisId);
-        Task<bool> UpdateActionAxis(int axisId);
+        Task<bool> UpdateContentAxis(AxisDto axisDto);
+        Task<bool> UpdateActionAxis(AxisDto axisDto);
 
         Task<bool> RemoveFromContentAxes(int axisId);
         Task<bool> RemoveFromActionAxes(int axisId);

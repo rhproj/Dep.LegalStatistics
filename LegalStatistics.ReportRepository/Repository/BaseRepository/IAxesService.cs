@@ -3,9 +3,7 @@ using LegalStatistics.ReportRepository.Models.BaseModels.DTO;
 
 namespace LegalStatistics.ReportRepository.Repository.BaseRepository
 {
-    public interface IAxesService<TValue, TDto>
-            where TValue : TableAxesBase
-            where TDto : AxisDto
+    public interface IAxesService
     {
         Task<IEnumerable<TDto>> GetAxesValues<TValue, TDto>()
             where TValue : TableAxesBase
@@ -13,14 +11,13 @@ namespace LegalStatistics.ReportRepository.Repository.BaseRepository
 
         Task<bool> AddValueToAxes<TValue, TDto>(TDto axisDto)
             where TValue : TableAxesBase
-            where TDto : AxisDto;
+            where TDto : AxisUpDto;
 
-        Task<bool> UpdateAxis<TValue, TDto>(int axisId)
+        Task<bool> UpdateAxis<TValue, TDto>(TDto axisDto)
             where TValue : TableAxesBase
             where TDto : AxisDto;
 
-        Task<bool> RemoveFromAxes<TValue, TDto>(int axisId)
-            where TValue : TableAxesBase
-            where TDto : AxisDto;
+        Task<bool> RemoveFromAxes<TValue>(int axisId)
+            where TValue : TableAxesBase;
     }
 }

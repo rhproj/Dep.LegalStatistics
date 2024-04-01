@@ -11,8 +11,8 @@ namespace LegalStatistics.API.Controllers
     //[Authorize]
     public class ArbitrationProceedingAxesController : ControllerBase
     {
-        private readonly I2DAxesRepositoryBase<AxisUptDto> _axesRepository;
-        public ArbitrationProceedingAxesController(I2DAxesRepositoryBase<AxisUptDto> axesRepository)
+        private readonly I2DAxesRepositoryBase _axesRepository;
+        public ArbitrationProceedingAxesController(I2DAxesRepositoryBase axesRepository)
         {
             _axesRepository = axesRepository;
         }
@@ -21,7 +21,7 @@ namespace LegalStatistics.API.Controllers
         //[Authorize(Roles = "basic")]
         public async Task<IActionResult> GetLawsuitContentAxes()
         {
-            var result = await _axesRepository.GetLawsuitContentAxes(); //GetTableContentAxes();
+            var result = await _axesRepository.GetLawsuitContentAxes();
 
             if (result.IsNullOrEmpty())
             {
@@ -44,7 +44,8 @@ namespace LegalStatistics.API.Controllers
         }
 
         [HttpPost("AddToLawsuitContentAxes")]
-        public async Task<IActionResult> AddToLawsuitContentAxes([FromBody] AxisUptDto axisDto)
+        //[Authorize(Roles = "specialist")]
+        public async Task<IActionResult> AddToLawsuitContentAxes([FromBody] AxisUpDto axisDto)
         {
             var result = await _axesRepository.AddToLawsuitContentAxes(axisDto);
             if (!result)
@@ -55,7 +56,8 @@ namespace LegalStatistics.API.Controllers
         }
 
         [HttpPost("AddToLegalActionAxes")]
-        public async Task<IActionResult> AddToLegalActionAxes([FromBody] AxisUptDto axisDto)
+        //[Authorize(Roles = "specialist")]
+        public async Task<IActionResult> AddToLegalActionAxes([FromBody] AxisUpDto axisDto)
         {
             var result = await _axesRepository.AddToLegalActionAxes(axisDto);
             if (!result)
@@ -66,9 +68,46 @@ namespace LegalStatistics.API.Controllers
         }
 
         [HttpPost("UpdateContentAxis")]
-        public async Task<IActionResult> UpdateContentAxis([FromBody] AxisUptDto axisDto)
+        //[Authorize(Roles = "specialist")]
+        public async Task<IActionResult> UpdateContentAxis([FromBody] AxisDto axisDto)
         {
-            var result = await _axesRepository.AddToLegalActionAxes(axisDto);
+            var result = await _axesRepository.UpdateContentAxis(axisDto);
+            if (!result)
+            {
+                return BadRequest();
+            }
+            return Ok(result);
+        }
+
+        [HttpPost("UpdateActionAxis")]
+        //[Authorize(Roles = "specialist")]
+        public async Task<IActionResult> UpdateActionAxis([FromBody] AxisDto axisDto)
+        {
+            var result = await _axesRepository.UpdateActionAxis(axisDto);
+            if (!result)
+            {
+                return BadRequest();
+            }
+            return Ok(result);
+        }
+
+        [HttpPost("RemoveFromContentAxes/{axisId}")]
+        //[Authorize(Roles = "specialist")]
+        public async Task<IActionResult> RemoveFromContentAxes(int axisId)
+        {
+            var result = await _axesRepository.RemoveFromContentAxes(axisId);
+            if (!result)
+            {
+                return BadRequest();
+            }
+            return Ok(result);
+        }
+
+        [HttpPost("RemoveFromActionAxes/{axisId}")]
+        //[Authorize(Roles = "specialist")]
+        public async Task<IActionResult> RemoveFromActionAxes(int axisId)
+        {
+            var result = await _axesRepository.RemoveFromActionAxes(axisId);
             if (!result)
             {
                 return BadRequest();

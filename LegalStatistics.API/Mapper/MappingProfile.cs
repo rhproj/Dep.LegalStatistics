@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using LegalStatistics.ReportRepository.Models.ArbitrationProceeding;
-using LegalStatistics.ReportRepository.Models.BaseModels;
 using LegalStatistics.ReportRepository.Models.BaseModels.DTO;
 
 namespace LegalStatistics.API.Mapper
@@ -14,9 +13,10 @@ namespace LegalStatistics.API.Mapper
                 .ForMember(s=>s.ContentOrdinal, s=>s.MapFrom(a=>a.LawsuitContent.Ordinal))
                 .ReverseMap();
 
-            CreateMap<TableAxesBase, AxisUptDto>().ReverseMap();
-            CreateMap<ArbitrationProceeding_LawsuitContent, AxisUptDto>().ReverseMap();
-            CreateMap<ArbitrationProceeding_LegalAction, AxisUptDto>().ReverseMap();
+            CreateMap<ArbitrationProceeding_LawsuitContent, AxisUpDto>().ReverseMap();
+            CreateMap<ArbitrationProceeding_LawsuitContent, AxisDto>();//.ReverseMap();
+            CreateMap<ArbitrationProceeding_LegalAction, AxisUpDto>().ReverseMap();
+            CreateMap<ArbitrationProceeding_LegalAction, AxisDto>();//.ReverseMap();
         }
     }
 }

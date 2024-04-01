@@ -45,12 +45,12 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 builder.Services.AddDbContext<AppDbContext>(opt => opt.UseNpgsql(builder.Configuration.GetConnectionString("NpgConnection")));
-//test
+
 builder.Services.AddScoped<IAxesService, AxesService>();
-//
+
 builder.Services.AddScoped<IArbitrationProceedingRepository, ArbitrationProceedingRepository>();
 
-builder.Services.AddScoped<I2DAxesRepositoryBase<AxisUptDto>, ArbitrationProceedingAxesRepository>();
+builder.Services.AddScoped<I2DAxesRepositoryBase, ArbitrationProceedingAxesRepository>();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 

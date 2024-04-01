@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace LegalStatistics.ReportRepository.Models.BaseModels.DTO
+﻿namespace LegalStatistics.ReportRepository.Models.BaseModels.DTO
 {
     public abstract class DtoBase
     {
