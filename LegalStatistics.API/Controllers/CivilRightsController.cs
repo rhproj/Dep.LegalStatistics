@@ -1,5 +1,5 @@
 ﻿using LegalStatistics.ReportRepository.Models.BaseModels.DTO;
-using LegalStatistics.ReportRepository.Repository.ArbitrationProceeding;
+using LegalStatistics.ReportRepository.Repository.LawImplementation.CivilRightsStatistics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 
@@ -8,20 +8,20 @@ namespace LegalStatistics.API.Controllers
     [Route("api/[controller]")]
     [ApiController]
     //[Authorize]
-    public class ArbitrationProceedingController : ControllerBase
+    public class CivilRightsController : ControllerBase
     {
-        private readonly IArbitrationProceedingRepository _arbitrationRepository;
+        private readonly ICivilRightsStatisticsRepository _civilRightsRepository;
 
-        public ArbitrationProceedingController(IArbitrationProceedingRepository arbitrationRepository)
+        public CivilRightsController(ICivilRightsStatisticsRepository civilRightsRepository)
         {
-            _arbitrationRepository = arbitrationRepository;
+            _civilRightsRepository = civilRightsRepository;
         }
 
-        [HttpGet("GetArbitrationProceedingStatistic")]
+        [HttpGet("GetCivilRightsStatistic")]
         //[Authorize(Roles = "basic")]
-        public async Task<IActionResult> GetArbitrationProceedingStatistic([FromQuery] ReportingPeriodDto reportingPeriodDto)
+        public async Task<IActionResult> GetCivilRightsStatistic([FromQuery] ReportingPeriodDto reportingPeriodDto)
         {
-            var result = await _arbitrationRepository.GetStatistics(reportingPeriodDto);   
+            var result = await _civilRightsRepository.GetStatistics(reportingPeriodDto);
 
             if (result.IsNullOrEmpty())
             {
@@ -34,7 +34,7 @@ namespace LegalStatistics.API.Controllers
         //[Authorize(Roles = "operative")]
         public async Task<IActionResult> UpSertEntry([FromBody] UpsertEntryDto entryDto)
         {
-            var result = await _arbitrationRepository.UpSertEntry(entryDto);
+            var result = await _civilRightsRepository.UpSertEntry(entryDto);
             if (!result)
             {
                 return BadRequest();
@@ -46,7 +46,7 @@ namespace LegalStatistics.API.Controllers
         //[Authorize(Roles = "operative")]
         public async Task<IActionResult> ResetAllEntries([FromBody] ReportingPeriodDto reportingPeriodDto)
         {
-            var result = await _arbitrationRepository.ResetAllEntriesToZero(reportingPeriodDto);
+            var result = await _civilRightsRepository.ResetAllEntriesToZero(reportingPeriodDto);
             if (result.IsNullOrEmpty())
             {
                 return NoContent();

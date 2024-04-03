@@ -1,10 +1,8 @@
 using LegalStatistics.AccountAPI.AccountModels;
 using LegalStatistics.ReportRepository.DataContext;
-using LegalStatistics.ReportRepository.Models.ArbitrationProceeding;
-using LegalStatistics.ReportRepository.Models.BaseModels;
-using LegalStatistics.ReportRepository.Models.BaseModels.DTO;
 using LegalStatistics.ReportRepository.Repository.ArbitrationProceeding;
 using LegalStatistics.ReportRepository.Repository.BaseRepository;
+using LegalStatistics.ReportRepository.Repository.LawImplementation.CivilRightsStatistics;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -47,10 +45,13 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddDbContext<AppDbContext>(opt => opt.UseNpgsql(builder.Configuration.GetConnectionString("NpgConnection")));
 
 builder.Services.AddScoped<IAxesService, AxesService>();
+builder.Services.AddScoped<IStatisticsDataService, StatisticsDataService>();
 
 builder.Services.AddScoped<IArbitrationProceedingRepository, ArbitrationProceedingRepository>();
+builder.Services.AddScoped<ICivilRightsStatisticsRepository, CivilRightsStatisticsRepository>();
 
 builder.Services.AddScoped<I2DAxesRepositoryBase, ArbitrationProceedingAxesRepository>();
+builder.Services.AddScoped<I2DAxesRepositoryBase, CivilRightsAxesRepository>();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 

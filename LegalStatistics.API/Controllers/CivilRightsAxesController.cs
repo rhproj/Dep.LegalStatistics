@@ -1,5 +1,4 @@
-﻿using LegalStatistics.ReportRepository.Models.ArbitrationProceeding;
-using LegalStatistics.ReportRepository.Models.BaseModels.DTO;
+﻿using LegalStatistics.ReportRepository.Models.BaseModels.DTO;
 using LegalStatistics.ReportRepository.Repository.BaseRepository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -9,10 +8,10 @@ namespace LegalStatistics.API.Controllers
     [Route("api/[controller]")]
     [ApiController]
     //[Authorize]
-    public class ArbitrationProceedingAxesController : ControllerBase
+    public class CivilRightsAxesController : ControllerBase
     {
         private readonly I2DAxesRepositoryBase _axesRepository;
-        public ArbitrationProceedingAxesController(I2DAxesRepositoryBase axesRepository)
+        public CivilRightsAxesController(I2DAxesRepositoryBase axesRepository)
         {
             _axesRepository = axesRepository;
         }
@@ -35,6 +34,7 @@ namespace LegalStatistics.API.Controllers
         public async Task<IActionResult> GetLegalActionAxes()
         {
             var result = await _axesRepository.GetLegalActionAxes();
+
             if (result.IsNullOrEmpty())
             {
                 return NoContent();
